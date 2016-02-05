@@ -11,17 +11,15 @@ exports.headers = headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  var filePath = archive.paths.siteAssets + '/' + asset;
 
-  fs.readFile(filePath, {encoding: 'utf-8'}, function(err, data){
-    if(!err){
-      res.writeHead(200, headers);
-      res.write(data);
-      res.end();
+  fs.readFile(asset, {encoding: 'utf-8'}, function(err, data){
+    if (err) {
+      throw err;
     } else {
-      console.log(err);
+      callback(data);
     }
   });
+
 };
 
 

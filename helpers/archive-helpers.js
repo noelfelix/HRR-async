@@ -12,7 +12,7 @@ var _ = require('underscore');
 
 exports.paths = {
   siteAssets: path.join(__dirname, '../web/public'),
-  archivedSites: path.join(__dirname, '../archives/sites'),
+  archivedSites: path.join(__dirname, '../archives/sites/'),
   list: path.join(__dirname, '../archives/sites.txt')
 };
 
@@ -58,18 +58,12 @@ exports.isUrlArchived = function(url, callback){
 
 exports.downloadUrls = function(urlArr){
   _.each(urlArr, function(url) {
-    http.get({url: url}, 'archives/sites/' + url, function (err, res) {
-      if (err) {
-        throw err;
-      }
-    });
+    if(url !== ''){
+      http.get({url: url}, exports.paths.archivedSites + url, function (err, res) {
+        if (err) {
+          return;
+        }
+      });
+    }
   });
 };
-
-// exports.readListOfUrls(function(list){
-//   _.filter(list, function(site){
-//     exports.isUrlArchived(site, function(bool) {
-//       callback(bool);
-//     });
-//   });
-// });
